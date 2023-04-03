@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\SettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,37 +27,37 @@ Route::group(['prefix' => 'v1'], function() {
         });
 
         Route::group(['prefix' => 'author'], function() {
-            Route::post('/', [FileApiController::class, 'store']);
-            Route::put('/{id}', [FileApiController::class, 'update']);
-            Route::delete('/{id}', [FileApiController::class, 'destroy']);
+            Route::post('/', [AuthorController::class, 'store']);
+            Route::put('/{id}', [AuthorController::class, 'update']);
+            Route::delete('/{id}', [AuthorController::class, 'destroy']);
         });
 
         Route::group(['prefix' => 'news'], function() {
-            Route::post('/', [FileApiController::class, 'store']);
-            Route::put('/{id}', [FileApiController::class, 'update']);
-            Route::delete('/{id}', [FileApiController::class, 'destroy']);
+            Route::post('/', [NewsController::class, 'store']);
+            Route::put('/{id}', [NewsController::class, 'update']);
+            Route::delete('/{id}', [NewsController::class, 'destroy']);
         });
 
         Route::group(['prefix' => 'settings'], function() {
-            Route::post('/', [FileApiController::class, 'store']);
-            Route::put('/{id}', [FileApiController::class, 'update']);
-            Route::delete('/{id}', [FileApiController::class, 'destroy']);
+            Route::post('/', [SettingsController::class, 'store']);
+            Route::put('/{id}', [SettingsController::class, 'update']);
+            Route::delete('/{id}', [SettingsController::class, 'destroy']);
         });
     });
 
     Route::group(['prefix' => 'author'], function() {
-        Route::get('/', [FileApiController::class, 'index']);
-        Route::get('/{id}', [FileApiController::class, 'show']);
+        Route::get('/', [AuthorController::class, 'index']);
+        Route::get('/{id}', [AuthorController::class, 'show']);
     });
 
     Route::group(['prefix' => 'news'], function() {
-        Route::get('/', [FileApiController::class, 'index']);
-        Route::get('/{id}', [FileApiController::class, 'show']);
+        Route::get('/', [NewsController::class, 'index']);
+        Route::get('/{id}', [NewsController::class, 'show']);
     });
 
     Route::group(['prefix' => 'settings'], function() {
-        Route::get('/', [FileApiController::class, 'index']);
-        Route::get('/{id}', [FileApiController::class, 'show']);
+        Route::get('/', [SettingsController::class, 'index']);
+        Route::get('/{id}', [SettingsController::class, 'show']);
     });
 
     Route::group(['prefix' => 'auth'], function() {
