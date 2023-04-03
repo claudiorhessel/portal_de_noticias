@@ -14,6 +14,14 @@ class SettingsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "id" => $this->id,
+            "portal_name" => $this->portal_name,
+            "email" => $this->email,
+            "logo"=> config('app.url') . "/" . $this->logo,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+            "deleted_at" => $this->deleted_at,
+        ];
     }
 }

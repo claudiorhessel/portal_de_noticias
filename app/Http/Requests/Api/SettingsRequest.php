@@ -11,7 +11,7 @@ class SettingsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,47 @@ class SettingsRequest extends FormRequest
      */
     public function rules(): array
     {
+        return match($this->method()) {
+            'POST' => $this->store(),
+            'PUT', 'PATCH' => $this->update(),
+            'DELETE' => $this->destroy()
+        };
+    }
+
+    /**
+     * Get the validation rules that apply to the put/patch request.
+     *
+     * @return array
+     */
+    public function update(): array
+    {
         return [
-            //
+            'title' => 'sometimes|required|unique:news,title',
+            'author_id' => 'sometimes|required',
+            'wysiwyg_content' => 'sometimes|required',
+        ];
+    }
+
+    /**
+     * Get the validation rules that apply to the post request.
+     *
+     * @return array
+     */
+    public function store(): array
+    {
+        return [
+            'portal_name' => 'required',
+            'logo' => 'required',
+            'email' => 'required|email',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'portal_name.required' => 'Portal Name is required!',
+            'logo.required' => 'Logo is required!',
+            'email.required' => 'Email is required!'
         ];
     }
 }
