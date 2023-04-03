@@ -11,7 +11,7 @@ class NewsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,48 @@ class NewsRequest extends FormRequest
      */
     public function rules(): array
     {
+        return match($this->method()) {
+            'POST' => $this->store(),
+            'PUT', 'PATCH' => $this->update(),
+            'DELETE' => $this->destroy()
+        };
+    }
+
+    /**
+     * Get the validation rules that apply to the put/patch request.
+     *
+     * @return array
+     */
+    public function update(): array
+    {
         return [
-            //
+            'title' => 'sometimes|required|unique:news,title',
+            'author_id' => 'sometimes|required',
+            'wysiwyg_content' => 'sometimes|required',
+        ];
+    }
+
+    /**
+     * Get the validation rules that apply to the post request.
+     *
+     * @return array
+     */
+    public function store(): array
+    {
+        return [
+            'title' => 'required|unique:news,title',
+            'author_id' => 'required',
+            'wysiwyg_content' => 'required',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Title is required!',
+            'title.unique' => 'Title must be unique!',
+            'author_id.required' => 'Author ID is required!',
+            'wysiwyg_content.required' => 'Wysiwyg Content is required!'
         ];
     }
 }

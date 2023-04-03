@@ -4,13 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+    protected $fillable = [
+        'author_id',
+        'title',
+        'wysiwyg_content',
+    ];
 
     public function authors()
     {
-        return $this->hasOne(Author::class);
+        return $this->belongsTo(Author::class, 'author_id');
     }
 }
