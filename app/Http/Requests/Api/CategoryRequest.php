@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -36,10 +36,7 @@ class NewsRequest extends FormRequest
     public function update(): array
     {
         return [
-            'title' => 'sometimes|required|unique:news,title',
-            'author_id' => 'sometimes|required',
-            'category_id' => 'sometimes|required',
-            'wysiwyg_content' => 'sometimes|required',
+            'name' => 'sometimes|required|unique:categories,name'
         ];
     }
 
@@ -51,21 +48,14 @@ class NewsRequest extends FormRequest
     public function store(): array
     {
         return [
-            'title' => 'required|unique:news,title',
-            'author_id' => 'required',
-            'category_id' => 'required',
-            'wysiwyg_content' => 'required',
+            'name' => 'required'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'Title is required!',
-            'title.unique' => 'Title must be unique!',
-            'author_id.required' => 'Author ID is required!',
-            'category_id.required' => 'Category ID is required!',
-            'wysiwyg_content.required' => 'Wysiwyg Content is required!'
+            'name.required' => 'Name is required!'
         ];
     }
 }

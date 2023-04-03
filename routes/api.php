@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\SettingsController;
 use Illuminate\Http\Request;
@@ -43,6 +44,12 @@ Route::group(['prefix' => 'v1'], function() {
             Route::put('/{id}', [SettingsController::class, 'update']);
             Route::delete('/{id}', [SettingsController::class, 'destroy']);
         });
+
+        Route::group(['prefix' => 'category'], function() {
+            Route::post('/', [CategoryController::class, 'store']);
+            Route::put('/{id}', [CategoryController::class, 'update']);
+            Route::delete('/{id}', [CategoryController::class, 'destroy']);
+        });
     });
 
     Route::group(['prefix' => 'author'], function() {
@@ -58,6 +65,11 @@ Route::group(['prefix' => 'v1'], function() {
     Route::group(['prefix' => 'settings'], function() {
         Route::get('/', [SettingsController::class, 'index']);
         Route::get('/{id}', [SettingsController::class, 'show']);
+    });
+
+    Route::group(['prefix' => 'category'], function() {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::get('/{id}', [CategoryController::class, 'show']);
     });
 
     Route::group(['prefix' => 'auth'], function() {

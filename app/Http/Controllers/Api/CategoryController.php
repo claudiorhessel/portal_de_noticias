@@ -3,43 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\NewsRequest;
+use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\Api\NewsResource;
-use App\Models\News;
+use App\Http\Requests\Api\CategoryRequest;
+use App\Http\Resources\Api\CategoryResource;
 
-class NewsController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         try {
-            $news = News::with(['authors', 'categories']);
+            $categories = Category::query();
 
-            if($request->like_title) {
-                $news = $news->where('title', 'LIKE', '%'.$request->title.'%');
-            }
-
-            if($request->like_category) {
-                $news = $news->where('category', 'LIKE', '%'.$request->category.'%');
-            }
-
-            if($request->title) {
-                $news = $news->where('title', $request->title);
-            }
-
-            if($request->category) {
-                $news = $news->where('category', $request->category);
-            }
-
-            $news = $news->paginate();
+            $categories = $categories->paginate();
 
             return response()->json([
                 'status' => true,
-                'data' => $news
+                'data' => $categories
             ], 201);
         } catch (\Throwable $error) {
             return response()->json([
@@ -52,17 +36,17 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(NewsRequest $request): JsonResponse
+    public function store(CategoryRequest $request): JsonResponse
     {
         try {
-            $news = News::create($request->all());
+            $categories = Category::create($request->all());
 
-            $newsResource = NewsResource::make($news);
+            $categoriesResource = CategoryResource::make($categories);
 
             return response()->json([
                 'status' => true,
-                'message' => 'News created',
-                'data' => $newsResource
+                'message' => 'Category successfully created',
+                'data' => $categoriesResource
             ], 201);
         } catch (\Throwable $error) {
             return response()->json([
@@ -85,18 +69,19 @@ class NewsController extends Controller
                 ], 401);
             }
 
-            $news = News::find($id);
+            $categories = Category::find($id);
 
-            if(!$news) {
+            if(!$categories) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'News not found'
+                    'message' => 'Category not found'
                 ], 404);
             }
+            $categoriesResource = CategoryResource::make($categories);
 
             return response()->json([
                 'status' => true,
-                'data' => $news
+                'data' => $categoriesResource
             ], 200);
         } catch (\Throwable $error) {
             return response()->json([
@@ -109,7 +94,7 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsRequest $request, $id): JsonResponse
+    public function update(CategoryRequest $request, $id): JsonResponse
     {
         try {
             if(!is_numeric($id)) {
@@ -119,23 +104,23 @@ class NewsController extends Controller
                 ], 401);
             }
 
-            $news = News::find($id);
+            $categories = Category::find($id);
 
-            if(!$news) {
+            if(!$categories) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'News not found'
+                    'message' => 'Category not found'
                 ], 404);
             }
 
-            $news->fill($request->all());
-            $news->save();
+            $categories->fill($request->all());
+            $categories->save();
 
-            $newsResource = NewsResource::make($news);
+            $categoriesResource = CategoryResource::make($categories);
             return response()->json([
                 'status' => true,
-                'message' => 'News updated',
-                'data' => $newsResource
+                'message' => 'Category successfully updated',
+                'data' => $categoriesResource
             ], 200);
         } catch (\Throwable $error) {
             return response()->json([
@@ -158,20 +143,20 @@ class NewsController extends Controller
                 ], 401);
             }
 
-            $news = News::find($id);
+            $categories = Category::find($id);
 
-            if(!$news) {
+            if(!$categories) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'News not found'
+                    'message' => 'Category not found'
                 ], 404);
             }
 
-            $news->delete();
+            $categories->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'News successfully deleted'
+                'message' => 'Category successfully deleted'
             ], 200);
         } catch (\Throwable $error) {
             return response()->json([

@@ -13,6 +13,7 @@ class News extends Model
 
     protected $dates = ['deleted_at'];
     protected $fillable = [
+        'category_id',
         'author_id',
         'title',
         'wysiwyg_content',
@@ -21,5 +22,10 @@ class News extends Model
     public function authors()
     {
         return $this->belongsTo(Author::class, 'author_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
