@@ -20,7 +20,7 @@ class NewsResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "wysiwyg_content" => $this->wysiwyg_content,
-            "author_id"=> $this->wysiwyg_content,
+            "author_id"=> $this->author_id,
             "author_full_name" => Author::where('id', $this->author_id)->select("full_name")->first()->full_name,
             "category_id"=> $this->category_id,
             "category"=> Category::where('id', $this->category_id)->select("name")->first()->name,
