@@ -17,9 +17,7 @@ class CategoryController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $categories = Category::query();
-
-            $categories = $categories->paginate();
+            $categories = Category::all();
 
             return response()->json([
                 'status' => true,

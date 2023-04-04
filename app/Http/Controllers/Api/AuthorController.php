@@ -14,28 +14,10 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         try {
-            $authors = Author::query();
-
-            if($request->like_full_name) {
-                $authors = $authors->where('full_name', 'LIKE', '%'.$request->full_name.'%');
-            }
-
-            if($request->like_nick_name) {
-                $authors = $authors->where('nick_name', 'LIKE', '%'.$request->nick_name.'%');
-            }
-
-            if($request->full_name) {
-                $authors = $authors->where('full_name', $request->full_name);
-            }
-
-            if($request->nick_name) {
-                $authors = $authors->where('nick_name', $request->nick_name);
-            }
-
-            $authors = $authors->paginate();
+            $authors = Author::all();
 
             return AuthorResource::collection($authors)
                 ->response()

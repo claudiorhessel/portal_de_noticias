@@ -20,11 +20,11 @@ class NewsController extends Controller
             $news = News::with(['authors', 'categories']);
 
             if($request->like_title) {
-                $news = $news->where('title', 'LIKE', '%'.$request->title.'%');
+                $news = $news->where('title', 'LIKE', '%'.$request->like_title.'%');
             }
 
             if($request->like_category) {
-                $news = $news->where('category', 'LIKE', '%'.$request->category.'%');
+                $news = $news->orWhereRelation('categories', 'name', 'LIKE', '%'.$request->like_category.'%');
             }
 
             if($request->title) {
@@ -32,7 +32,7 @@ class NewsController extends Controller
             }
 
             if($request->category) {
-                $news = $news->where('category', $request->category);
+                $news = $news->whereRelation('categories', 'name', $request->category);
             }
 
             $news = $news->paginate();
